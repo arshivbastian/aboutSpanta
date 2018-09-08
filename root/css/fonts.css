@@ -1,0 +1,198 @@
+﻿@font-face {
+    font-family: naskh;
+    font-style: normal;
+    font-weight: 400;
+    src: url('facefont/naskh.eot?#') format('eot'),url('facefont/naskh.woff') format('woff'), url('facefont/naskh.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: naskhb;
+    font-style: normal;
+    font-weight: 700;
+    src: url('facefont/naskhb.eot?#') format('eot'),url('facefont/naskhb.woff') format('woff'), url('facefont/naskhb.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BBadr;
+    src: url('facefont/BBadr.eot?#') format('eot'),url('facefont/BBadr.woff') format('woff'), url('facefont/BBadr.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BBaran;
+    src: url('facefont/BBaran.eot?#') format('eot'),url('facefont/BBaran.woff') format('woff'), url('facefont/BBaran.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BBardiya;
+    src: url('facefont/BBardiya.eot?#') format('eot'),url('facefont/BBardiya.woff') format('woff'), url('facefont/BBardiya.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BCompset;
+    src: url('facefont/BCompset.eot?#') format('eot'),url('facefont/BCompset.woff') format('woff'), url('facefont/BCompset.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BNazanin;
+    src: url('facefont/BNazanin.eot?#') format('eot'),url('facefont/BNazanin.woff') format('woff'), url('facefont/BNazanin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BKoodakBold;
+    src: url('facefont/BKoodakBold.eot?#') format('eot'),url('facefont/BKoodakBold.woff') format('woff'), url('facefont/BKoodakBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BMitra;
+    src: url('facefont/BKoodakBold.eot?#') format('eot'),url('facefont/BKoodakBold.woff') format('woff'), url('facefont/BKoodakBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BTitrBold;
+    src: url('facefont/BTitrBold.eot?#') format('eot'),url('facefont/BTitrBold.woff') format('woff'), url('facefont/BTitrBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BTraffic;
+    src: url('facefont/BTraffic.eot?#') format('eot'),url('facefont/BTraffic.woff') format('woff'), url('facefont/BTraffic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Byekan;
+    src: url('facefont/Byekan.eot?#') format('eot'),url('facefont/Byekan.woff') format('woff'), url('facefont/Byekan.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: BZar;
+    src: url('facefont/BZar.eot?#') format('eot'),url('facefont/BZar.woff') format('woff'), url('facefont/BZar.ttf') format('truetype');
+}
+/*@font-face {
+	font-family: 'Sans';
+    src : url('facefont/IRANSW.woff2') format('woff');
+    font-weight: 300;
+}*/
+
+/*@font-face {
+	font-family: 'sans';
+	src: url('facefont/IRANSW.woff2') format('woff2'),  url('facefont/IRANSW.woff') format('woff'),url('facefont/IRANSW.ttf') format('truetype'); 
+}
+@font-face {
+	font-family: 'sansl';
+	src: url('facefont/IRANSLW.woff2') format('woff2'),  url('facefont/IRANSLW.woff') format('woff'),url('facefont/IRANSLW.ttf') format('truetype'); 
+}*/
+@font-face {
+    font-family: "IranNastaliq";
+    font-style: normal;
+    font-weight: 500;
+    src: url("facefont/IranNastaliq.eot?#iefix") format("embedded-opentype"), url("facefont/IranNastaliq.woff") format("woff"), url("facefont/IranNastaliq.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "IRANSans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("facefont/IRANSansWeb_Bold.eot?#iefix") format("embedded-opentype"), url("facefont/IRANSansWeb(FaNum)_Bold.woff") format("woff2"), url("facefont/IRANSansWeb_Bold.woff") format("woff"), url("facefont/IRANSansWeb_Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "IRANSans";
+    font-style: normal;
+    font-weight: 500;
+    src: url("facefont/IRANSansWeb_Medium.eot?#iefix") format("embedded-opentype"), url("facefont/IRANSansWeb(FaNum)_Medium.woff") format("woff2"), url("facefont/IRANSansWeb_Medium.woff") format("woff"), url("facefont/IRANSansWeb_Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "IRANSans";
+    font-style: normal;
+    font-weight: 300;
+    src: url("facefont/IRANSansWeb_Light.eot?#iefix") format("embedded-opentype"), url("facefont/IRANSansWeb(FaNum)_Light.woff") format("woff2"), url("facefont/IRANSansWeb_Light.woff") format("woff"), url("facefont/IRANSansWeb_Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "IRANSans";
+    font-style: normal;
+    font-weight: 200;
+    src: url("facefont/IRANSansWeb_UltraLight.eot?#iefix") format("embedded-opentype"), url("facefont/IRANSansWeb(FaNum)_UltraLight.woff") format("woff2"), url("facefont/IRANSansWeb_UltraLight.woff") format("woff"), url("facefont/IRANSansWeb_UltraLight.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "IRANSans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("facefont/IRANSansWeb.eot?#iefix") format("embedded-opentype"), url("facefont/IRANSansWeb(FaNum).woff") format("woff2"), url("facefont/IRANSansWeb.woff") format("woff"), url("facefont/IRANSansWeb.ttf") format("truetype");
+}
+
+
+@font-face {
+    font-family: ByekanRegular;
+    src: url('facefont/yekanwebregular.woff') format('woff');
+}
+
+@font-face {
+    font-family: "YekanNumbers";
+    font-style: normal;
+    font-weight: 400;
+    src: url("facefont/YekanNumbers-Regular.eot?#iefix") format("embedded-opentype"), url("facefont/YekanNumbers-Regular.woff") format("woff"), url("facefont/YekanNumbers-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Light'), local('OpenSans-Light'), url('facefont/OpenSans-Light.woff2') format('woff2'), url('facefont/OpenSans-Light.woff') format('woff');
+}
+
+/* Vazir */
+@font-face {
+    font-family: Vazir;
+    src: url('/lib/vazir-font/dist/Vazir.eot');
+    src: url('/lib/vazir-font/dist/Vazir.eot?#iefix') format('embedded-opentype'), url('/lib/vazir-font/dist/Vazir.woff') format('woff'), url('/lib/vazir-font/dist/Vazir.woff2') format('woff2'), url('/lib/vazir-font/dist/Vazir.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Vazir;
+    src: url('/lib/vazir-font/dist/Vazir-Bold.eot');
+    src: url('/lib/vazir-font/dist/Vazir-Bold.eot?#iefix') format('embedded-opentype'), url('/lib/vazir-font/dist/Vazir-Bold.woff') format('woff'), url('/lib/vazir-font/dist/Vazir-Bold.woff2') format('woff2'), url('/lib/vazir-font/dist/Vazir-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Vazir;
+    src: url('/lib/vazir-font/dist/Vazir-Light.eot');
+    src: url('/lib/vazir-font/dist/Vazir-Light.eot?#iefix') format('embedded-opentype'), url('/lib/vazir-font/dist/Vazir-Light.woff') format('woff'), url('/lib/vazir-font/dist/Vazir-Light.woff2') format('woff2'), url('/lib/vazir-font/dist/Vazir-Light.ttf') format('truetype');
+    font-weight: 300;
+}
+
+/* samim */
+@font-face {
+    font-family: Samim;
+    src: url('/lib/samim-font/dist/Samim.eot');
+    src: url('/lib/samim-font/dist/Samim.eot?#iefix') format('embedded-opentype'), url('/lib/samim-font/dist/Samim.woff') format('woff'), url('/lib/samim-font/dist/Samim.woff2') format('woff2'), url('/lib/samim-font/dist/Samim.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Samim;
+    src: url('/lib/samim-font/dist/Samim-Bold.eot');
+    src: url('/lib/samim-font/dist/Samim-Bold.eot?#iefix') format('embedded-opentype'), url('/lib/samim-font/dist/Samim-Bold.woff') format('woff'), url('/lib/samim-font/dist/Samim-Bold.woff2') format('woff2'), url('/lib/samim-font/dist/Samim-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+/* Shabnam */
+
+
+
+@font-face {
+    font-family: Shabnam;
+    src: url('/lib/shabnam-font/Shabnam-Bold.eot');
+    src: url('/lib/shabnam-font/Shabnam-Bold.eot?#iefix') format('embedded-opentype'), url('/lib/shabnam-font/Shabnam-Bold.woff') format('woff'), url('/lib/shabnam-font/Shabnam-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Shabnam;
+    src: url('/lib/shabnam-font/Shabnam.eot');
+    src: url('/lib/shabnam-font/Shabnam.eot?#iefix') format('embedded-opentype'), url('/lib/shabnam-font/Shabnam.woff') format('woff'), url('/lib/shabnam-font/Shabnam.ttf') format('truetype');
+    font-weight: normal;
+}
