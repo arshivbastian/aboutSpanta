@@ -1,0 +1,150 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>method PUT</h1>
+    <hr>
+    we use it to <strong>edite ONE ITEM</strong>  from server<br>
+    first we need to recieve id from a page that is showing entire data ( like grid page ) :
+    <xmp>
+        //send id to edite rout
+        $("#edit").click(function(){
+            var grid = $("div[data-role='grid']").data("kendoGrid");
+            console.log("edit clicked");
+            grid.select().each(function() {
+                    var dataItem = grid.dataItem($(this));
+                    console.log(dataItem);
+                    console.log(dataItem.id);
+                    router.navigate("/shifts/edit/"+(dataItem.id));
+            });
+        });
+    </xmp>
+    the address can be different in ur project <br>
+    Now we have the ID of selected item we should first load them from server <br>
+    html part : <br>
+    <xmp>
+        <form id="form" >
+            <div class="sans lbl mgtp">نام شیفت <sup><i class="ui small sup red asterisk icon"></i></sup></div>
+            <div class="ui stackable two column grid">
+                <div class="column">
+                    <input class="sans firstChild" name="Name" placeholder="" type="text" data-bind="value:Name" >
+                </div>
+                <div class="column">
+                        <div id="nameerr" class="ui red basic button sans "></div>
+                </div>
+            </div>
+        </form>
+        <div class="ui stackable two column grid mgbtm">
+            <div class="column">
+                <button id="send" class="ui small green button vazir" data-bind="events: { click: onClick }" ><i class="ui check square icon"></i>ثبت اطلاعات</button>
+            </div>
+            <div class="column">
+                <!--Empty-->
+            </div>
+        </div> 
+    </xmp>
+    define view model in script <br>
+    <xmp>
+        var viewModel = kendo.observable({
+            Name : '';
+        });
+        kendo.bind($("#form"), viewModel);
+    </xmp>
+    fill the  input with recieved data : (GET) <br>
+    <xmp>
+            //-----------------------------first fetching data for this ID 
+            var shiftdataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "ur url/"+_data.id,
+                        type: "GET",
+                        dataType: "json",
+                        contentType: "application/json",
+                        beforeSend: (xhr) => {
+                            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+                        },
+                    },
+                },
+                schema: {
+                    model: {
+                        fields: {
+                           Name: { type:"string" },
+                        }
+                    }
+                },
+                batch: true,
+            });
+            shiftdataSource.fetch(function() {
+                var dataItems = this.view();
+                viewModel.set("Name",dataItems[0].Name);
+            }
+    </xmp>
+    _data.id is from previouse page (grid page) <br>
+    After changing the recieved data , add these lines to view model then send the edited data back to server : <br>
+    <xmp>
+        var viewModel = kendo.observable({
+            Name : '';
+            onClick: function(e) {
+                //stop loading page
+                e.preventDefault();
+                $.ajax({
+                    url:apiUrl+'/shifts/'+_data.id,
+                    type: 'PUT',
+                    //recieve data with data-bind
+                    data : kendo.stringify({
+                        Id:_data.id,
+                        Name:this.get("Name"),
+                    });
+                    //jason type neccesary lines
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    //checks if user logged in and has the access token
+                    beforeSend: (xhr) => {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+                    },
+                    success: function (data) {
+                        console.log("done!");
+                    }
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //special errors for each field
+                        var errorType = jqXHR.responseJSON.errors;
+                        for (var i = 0; i < errorType.length; i++) {
+                            switch (errorType[i].fieldName) {
+                                case 'Name':
+                                    $("#nameerr").html("<i class='red warning sign icon'></i>" + errorType[i].message).show();
+                                    break;
+                            };
+                        };
+                        //no taken so we will redirect page to login (will delete this as we are using auturization in head)
+                        if (jqXHR.status == 401 || jqXHR.status == 500 ) {
+                            window.location.assign(baseUrl+"/home/login");
+                        }
+                    }
+                });
+            }
+        });
+        kendo.bind($("#form"), viewModel);
+    </xmp>
+    we need to send _data.id back to server in PUT method as a key 
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+</body>

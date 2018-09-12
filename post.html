@@ -1,0 +1,102 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>method POST</h1>
+    <hr>
+    to add <strong>new data</strong> to server :<br>
+    <xmp>
+        <form id="form">
+            <div class="sans lbl sp">نام مدرسه <sup><i class="ui small sup red asterisk icon"></i></sup></div>
+            <div class="ui stackable two column grid">
+                //input
+                <div class="column">
+                    <div class="ui input">
+                        <input id="name" type="text" class="sans" placeholder="" data-bind="value: Name">
+                    </div>
+                </div>
+                //for error
+                <div class="column">
+                    <div id="nameerr" class="ui red basic button sans"></div>
+                </div>
+                //a button to send
+                <div class="ui stackable two column grid mgbtm">
+                    <div class="column">
+                        <button id="send" class="ui small green button vazir" data-bind="events: { click: onClick }" ><i class="ui check square icon"></i>ثبت اطلاعات</button>
+                    </div>
+                    <div class="column">
+                        <!--Empty-->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </xmp>
+    these lines give u an input + a place for  error that has display:none in style <br>
+    data-bind id for viewmodel <br>
+    for sending this input to server you need these codes in script : <br>
+    <xmp>
+            var viewModel = kendo.observable({
+                Name: null,
+                onClick: function(e) {
+                    //stop loading page
+                    e.preventDefault();
+                    $.ajax({
+                        url:"ur url",
+                        type: 'POST',
+                        //recieve data with data-bind
+                        data : kendo.stringify({
+                            Name : this.get("Name") ,
+                        });
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        //checks if user logged in and has the access token
+                        beforeSend: (xhr) => {
+                            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+                        },
+                        success: function (data) {
+                            console.log("done!");
+                        }
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            //special errors for each field
+                            var errorType = jqXHR.responseJSON.errors;
+                            for (var i = 0; i < errorType.length; i++) {
+                                switch (errorType[i].fieldName) {
+                                    case 'Name':
+                                        $("#nameerr").html("<i class='red warning sign icon'></i>" + errorType[i].message).show();
+                                        break;
+                                };
+                            };
+                            //no taken so we will redirect page to login (will delete this as we are using auturization in head)
+                            if (jqXHR.status == 401 || jqXHR.status == 500 ) {
+                                    window.location.assign(baseUrl+"/home/login");
+                            }
+                        }
+                    });
+                }
+            });
+            kendo.bind($("#form"), viewModel);
+    </xmp>
+    status 401 is for access Token ; the special error are errors for field that comes from server, will have a seprate tutorial ! <br>
+    viewmodel needed to be bind to an element in page ( even body ) , to recieve or put data in elements that have data-bind .
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+</body>
