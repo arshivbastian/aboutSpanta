@@ -1,0 +1,156 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+</style>
+<body>
+    <h1>TOKEN</h1>
+    <hr>
+    <h3>how to get token from SERVER in login :</h3>
+    <xmp>
+            $.ajax({
+                url: config.tokenUrl,
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: (data, textStatus, xhr) => {
+                    console.log(data);
+                    if (xhr.status == "200") {
+                        localStorage.setItem("access_token", data.access_token);
+                      document.cookie = "access_token=" + data.access_token;
+                        //alert("welcome!");
+                    } else {
+                        alert("Error: Status Code= " + xhr.status + ", Message=" + textStatus);
+
+                    }
+                    $("#token-result").html("<h4>Response:</h4><pre style=\"height:100%;\">" + "status= " + xhr.status + "<br/>" + xhr.responseText + "</pre>");
+                    $("#wait").hide();
+
+
+                },
+                error: (xhr, textStatus) => {
+                    console.log(xhr);
+                    $("#token-result").html("<h4>Response:</h4><pre>" + "status= " + xhr.status + "<br/>" + xhr.responseText + "</pre>");
+                    $("#wait").hide();
+
+                }
+            });
+    </xmp>
+
+    <h3>use token in each post get put method :</h3>
+    <xmp>
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+            },
+    </xmp>
+    you  have to use it in both kendo datasource and ajax <br>
+
+    <h3>remove token in routing by checking time :</h3>
+    routing : loading a part of page without loading entire of the page <br>
+    token place : token is inside localstorage <br>
+    time : token expired after some minutes/hours etc ... <br>
+    <xmp>
+            //define route in kendo
+            router = new kendo.Router({
+                pushState: true,
+                hashBang: true,
+                root: "/"
+            });
+            // on change
+            router.bind("change", function(e) {
+                // check token's time
+                if ( DecodeJWT.exp<=_date.getTime()/1000) {
+                    console.log("obj");
+                    //remove local storage so token
+                    localStorage.clear();
+                }
+                // continue routing ...
+                console.log(e.url);
+                var params = decodeURI(e.url).split("/");
+                console.log(params[0]);
+               /* if (e.url == "/") {
+                    return router.navigate('/one');
+                    
+                }*/
+                 if (e.url == "/") {
+                    return router.navigate('/map'); 
+                }
+                .
+                .
+                .
+                other routes
+            }
+    </xmp><br>
+    this code only delete the token for each route we need to check the token : <br>
+    <xmp>
+            if (localStorage.getItem("access_token") === null ) {
+                window.location.assign(baseUrl+"/home/login");
+            }
+    </xmp> <br>
+    this code returns user to login page !
+
+    <h3>Decoding the Token</h3>
+    Token is an encoded data that contains ID of the user , time of expire (as you saw in previouse exmple) <br>
+    <xmp>
+        //store token
+        var JWT=localStorage.getItem("access_token");
+        //decode token
+        function parseJwt (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
+        };
+        //in this variable we have users id
+        var DecodeJWT=parseJwt(JWT);
+        //connect to server by id and return the name of the user
+        var dataSourceDynamicName = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url:apiUrl+'/users/'+DecodeJWT.id,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    beforeSend: (xhr) => {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+                    },
+                },
+            },
+            schema: {
+                data: "user",
+                model: {
+                    fields: {
+                        firstName: {
+                            type: "string"
+                        },
+                        lastName: {
+                            type: "string"
+                        },
+                    },
+                },
+            },
+            batch: true,
+        });
+        // set it some where we want
+        dataSourceDynamicName.fetch(function() {
+            var dataItems = this.view();
+            mainviewModel.set("dynamicName",dataItems[0].firstName+dataItems[0].lastName);
+                      
+        });
+    </xmp>
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+</body>

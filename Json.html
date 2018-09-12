@@ -1,0 +1,95 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+</style>
+<body>
+    <h1>Json</h1>
+    <hr>
+    Its a carrier between client and server look at the pictures below : <br>
+    <img src="./img/json1.png"/> <br>
+    <img src="./img/json2.png"/> <br>
+    both are showing same  datasource , you can fetch all of them them this way :
+    <xmp>
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url:"ur url",
+                    type: "GET",
+                    //neccessary for Json
+                    dataType: "json",
+                    contentType: "application/json",
+                    //Token
+                    beforeSend: (xhr) => {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("access_token"));
+                    },
+                },
+            },
+            // define the server method
+            schema: {
+                model: {
+                    fields: {
+                        name: {
+                            type: "string"
+                        },
+                        mobileNumber: {
+                            type: "string"
+                        },
+                        emailAddress: {
+                            type: "string"
+                        },
+                        address: {
+                            type: "string"
+                        },
+                        coordinates: {
+                            type: "object"
+                        },
+                        sendOutOfZoneAlert: {
+                            type: "boolean"
+                        }
+                    },
+                },
+            },
+            batch: true,
+        });
+        //fetching
+        dataSource.fetch(function() {
+            var dataItems = this.view();
+            //loop to get entire data
+            for(var i=0;i<=dataItems.length;i++){  
+                //set to view model with the data from Json
+                viewModel.set("name", dataItems[i].name);
+                viewModel.set("tel", dataItems[i].mobileNumber);
+                viewModel.set("email", dataItems[i].emailAddress);
+                viewModel.set("address", dataItems[i].address);
+                viewModel.set("x", dataItems[i].coordinates.x);
+                viewModel.set("y", dataItems[i].coordinates.y);
+                viewModel.set("sms", dataItems[i].sendOutOfZoneAlert);
+                boolean_chk = dataItems[i].sendOutOfZoneAlert;
+            }
+        });
+    </xmp>
+    <h3> in methods : </h3>
+    In methods you need to mention it as type : <br>
+    <xmp>
+        //jason type neccesary lines
+        contentType: 'application/json',
+        dataType: 'json',
+    </xmp>
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+</body>
