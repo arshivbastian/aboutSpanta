@@ -1,0 +1,77 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>Start A MAP</h1>
+    <hr>
+    first you need to add these to line in your header : <br>
+    <xmp>
+        <script src="root/js/leaflet.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+    </xmp>
+    you can find these files in root folder of this project . <br>
+
+    <h2>how it looks :</h2>
+    <center><div id="map" style="width: 400px;height: 400px"></div></center>
+    <h2>Codes :</h2>
+    body : <br>
+    <xmp style="width: 50%">
+        <center><div id="map" style="width: 400px;height: 400px"></div></center>
+    </xmp>
+    Script : <br>
+    <xmp style="width: 50%">
+        <script>
+            //map basic setting
+            var map = L.map('map',{
+                //interlakhen lat/lang
+                center: [46.6863481,7.863205],
+                zoom: 13
+            });
+            //add open street map layer to map div
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+            }).addTo(map);
+        </script>
+    </xmp>
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+
+
+    <script>
+        //map basic setting
+        var map = L.map('map',{
+            center: [46.6863481,7.863205],
+            zoom: 13
+        });
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map);
+    </script>
+</body>
+</html>
