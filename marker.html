@@ -30,6 +30,60 @@
         <button class="ui violet button" id="point"> point</button>
     </center>
 
+    <h2>First you need mother code :</h2>
+    <xmp>
+        //header
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="root/js/leaflet.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+
+        //body
+        <center><div id="map" style="width: 400px;height: 400px"></div></center>
+
+        //end of the body 
+        <script>
+            //map basic setting
+            var map = L.map('map',{
+                center: [0,0],
+                zoom: 5
+            });
+            //add open street map layer to map div
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+            }).addTo(map);
+        </script>
+    </xmp>
+
+    the extera code in end of body script 
+
+    <xmp>
+        //car icon 
+        $("#car").click (function() {
+            //define map icon
+            var carIcon = L.icon({
+                iconUrl: './root/images/locate.png',
+                iconSize:     [35, 35], // size of the icon
+                popupAnchor: [0, 0]
+            });
+            //special mark with popup using starticon
+            L.marker([46.685182 , 7.865076], {icon: carIcon}).addTo(map);
+        });
+        //point icon 
+        $("#point").click (function() {
+            //define map icon
+            var pointIcon = L.icon({
+                iconUrl: './root/images/startmark.png',
+                iconSize:     [35, 35], // size of the icon
+                popupAnchor: [0, 0]
+            });
+            //special mark with popup using starticon
+            L.marker([46.685013 , 7.863804], {icon: pointIcon}).addTo(map);
+        });
+    </xmp>
+
+
     <br> <br>
     <hr>
     <br>
