@@ -1,0 +1,109 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>Polyline to show the rout</h1>
+    <hr>
+    <h2>First Look :</h2>
+    <center>
+        <div id="map" style="width: 400px;height: 400px"></div>
+    </center>
+
+    <h2>First you need mother code :</h2>
+    <xmp>
+        //header
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="root/js/leaflet.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+
+        //body
+        <center><div id="map" style="width: 400px;height: 400px"></div></center>
+
+        //end of the body 
+        <script>
+            //map basic setting
+            var map = L.map('map',{
+                center: [46.6863481,7.863205],
+                zoom: 5
+            });
+            //add open street map layer to map div
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+            }).addTo(map);
+            
+            //define map icon
+            var pointIcon = L.icon({
+                iconUrl: './root/images/locate.png',
+                iconSize:     [35, 35], // size of the icon
+                popupAnchor: [0, 0]
+            });
+            //add icon to map
+            L.marker([46.685013 , 7.863804], {icon: pointIcon}).addTo(map);
+        </script>
+    </xmp>
+
+    To creating the poliline you need some location that ends  to L.marker <br>
+    <xmp>
+            //polyline
+            var polulines = L.polyline([
+                [46.686004,7.869654],
+                [46.687358,7.869718],
+                [46.687888,7.872871],
+            ]).addTo(map);
+    </xmp>
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+
+    <script>
+        //map basic setting
+        var map = L.map('map',{
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map);
+        //define map icon
+        var pointIcon = L.icon({
+            iconUrl: './root/images/startmark.png',
+            iconSize:     [35, 35], // size of the icon
+            popupAnchor: [0, 0]
+        });
+        //special mark with popup using starticon
+        L.marker([46.687888,7.872871], {icon: pointIcon}).addTo(map);
+        //polyline
+        var polulines = L.polyline([
+            [46.686004,7.869654],
+            [46.687358,7.869718],
+            [46.687888,7.872871],
+        ]).addTo(map);
+    </script>
+</body>
+</html>
