@@ -1,0 +1,151 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>distance from coordinates</h1>
+    mother code : <br>
+    <xmp>
+        var radlat1 = Math.PI * data.data[i-1].coordinates.y/180 ;
+        var radlat2 = Math.PI * data.data[i].coordinates.y/180 ;
+        var theta = data.data[i-1].coordinates.x-data.data[i].coordinates.x ;
+        var radtheta = Math.PI * theta/180 ;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) { dist = 1 };
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344 ;
+        if (dist>5) {
+            //if the distance was greater than 5km then do this
+        }
+        if (dist<=5) {
+            // //if the distance was less or equal 5km then do this
+        }
+    </xmp>
+    now we wanna mesure the distance between two cordinates with this code and show in a pop up :<br><br>
+    <center>
+        <div id="map" style="width: 400px;height: 400px"></div>
+    </center>
+    <xmp>
+            //cut mother code of map
+            //map basic setting
+            var map = L.map('map',{
+                center: [46.685182 , 7.865076],
+                zoom: 18
+            });
+            //add open street map layer to map div
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+            }).addTo(map);
+            //line between points
+            var polylines = L.polyline([
+                [46.685013 , 7.863804],
+                [46.685182 , 7.865076],
+            ]).addTo(map);
+            //the points latlng to variables
+            var prevx = 46.685013 ;
+            var prevy = 7.863804 ;
+            var newx = 46.685182 ;
+            var newy = 7.865076 ;
+            //distance code 
+            var radlat1 = Math.PI * prevy/180 ;
+            var radlat2 = Math.PI * newy/180 ;
+            var theta = prevx-newx ;
+            var radtheta = Math.PI * theta/180 ;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) { dist = 1 };
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344 ;
+            //icon 1
+            var pointIcon = L.icon({
+                iconUrl: './root/images/startmark.png',
+                iconSize:     [35, 35], // size of the icon
+                popupAnchor: [0, 0]
+            });
+            L.marker([46.685013 , 7.863804], {icon: pointIcon}).addTo(map);
+            //icon 2
+            var carIcon = L.icon({
+                iconUrl: './root/images/locate.png',
+                iconSize:     [35, 35], // size of the icon
+                popupAnchor: [0, 0]
+            });
+            L.marker([46.685182 , 7.865076], {icon: carIcon}).addTo(map).bindPopup('<span>'+dist+' Km</span>');
+    </xmp>
+    
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+    <script>
+        //map basic setting
+        var map = L.map('map',{
+            center: [46.685182 , 7.865076],
+            zoom: 18
+        });
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map);
+        //line between points
+        var polylines = L.polyline([
+            [46.685013 , 7.863804],
+            [46.685182 , 7.865076],
+        ]).addTo(map);
+        //the points latlng to variables
+        var prevx = 46.685013 ;
+        var prevy = 7.863804 ;
+        var newx = 46.685182 ;
+        var newy = 7.865076 ;
+        //distance code 
+        var radlat1 = Math.PI * prevy/180 ;
+        var radlat2 = Math.PI * newy/180 ;
+        var theta = prevx-newx ;
+        var radtheta = Math.PI * theta/180 ;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) { dist = 1 };
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344 ;
+        //icon 1
+        var pointIcon = L.icon({
+            iconUrl: './root/images/startmark.png',
+            iconSize:     [35, 35], // size of the icon
+            popupAnchor: [0, 0]
+        });
+        L.marker([46.685013 , 7.863804], {icon: pointIcon}).addTo(map);
+        //icon 2
+        var carIcon = L.icon({
+            iconUrl: './root/images/locate.png',
+            iconSize:     [35, 35], // size of the icon
+            popupAnchor: [0, 0]
+        });
+        L.marker([46.685182 , 7.865076], {icon: carIcon}).addTo(map).bindPopup('<span>'+dist+' Km</span>');
+
+    </script>
+</body>

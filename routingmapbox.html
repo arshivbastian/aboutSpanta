@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <title>Display a map</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src="root/js/leaflet.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+        <script src="root/js/leaflet-routing-machine.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/leaflet-routing-machine.css">
+        <script src="root/js/mapbox-gl.js"></script>
+        <link rel="stylesheet" type="text/css" href="root/css/mapbox-gl.css">
+        <style>
+            body { margin:0; padding:0; }
+            #map { position:absolute; top:0; bottom:0; width:100%; }
+        </style>
+    </head>
+
+    <body>
+        <div id='map'></div>
+        <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYXJzaGl2IiwiYSI6ImNqbmN6ZXdqcTAwYjQzd25xdGxnNndpaGwifQ.rW1PJjMhUYHlwHjyebv3dw';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+            center: [53.6880,32.4279], // starting position [lng, lat]
+            zoom: 9 // starting zoom
+        });
+        // L.Routing.Mapbox 
+        L.Routing.control({
+            waypoints: [
+                L.latLng(46.686004, 7.869654),
+                L.latLng(46.687888,7.872871),
+                L.latLng(46.687888,7.872871)
+            ],
+        //show: false,
+        router: new L.Routing.Mapbox('pk.eyJ1IjoiYXJzaGl2IiwiYSI6ImNqbmN6ZXdqcTAwYjQzd25xdGxnNndpaGwifQ.rW1PJjMhUYHlwHjyebv3dw')
+        }).addTo(map);
+        </script>
+    </body>
+</html>

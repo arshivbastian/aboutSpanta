@@ -1,0 +1,90 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<script src="root/js/leaflet.rotatedMarker.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    you need this js file : <a href="https://github.com/bbecquet/Leaflet.RotatedMarker">Leaflet.RotatedMarker.js</a> <br>
+    I have download it and its in my root , I just add it to my server : <br>
+    <xmp><script src="root/js/leaflet.rotatedMarker.js"></script></xmp>
+    think you wanna show the path direction with an icon  , for showing the direction  you need to rotate the icon  with Leaflet.RotatedMarker.js <br><br>
+    <center><div id="map" style="width: 400px;height: 400px"></div></center>
+
+    code : <br>
+    <xmp>
+        //cut mother code of map 
+        //define middle icon
+        var midIcon = L.icon({
+            iconUrl: './root/images/mid.png',
+            iconSize:     [15, 15], // size of the icon
+            popupAnchor: [0, 0]
+        });
+        //add to map
+        L.marker([46.686004,7.869654], {icon: midIcon, rotationAngle: 0}).addTo(map) ;
+        L.marker([46.687358,7.869718], {icon: midIcon, rotationAngle: 45}).addTo(map) ;
+        L.marker([46.687888,7.872871], {icon: midIcon, rotationAngle: 70}).addTo(map) ;
+
+        //polyline
+        var polulines = L.polyline([
+            [46.686004,7.869654],
+            [46.687358,7.869718],
+            [46.687888,7.872871],
+        ]).addTo(map);
+    </xmp>
+
+
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+    <script>
+        //map basic setting
+        var map = L.map('map',{
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map);
+        
+        //define middle icon
+        var midIcon = L.icon({
+            iconUrl: './root/images/mid.png',
+            iconSize:     [15, 15], // size of the icon
+            popupAnchor: [0, 0]
+        });
+        //add to map
+        L.marker([46.686004,7.869654], {icon: midIcon, rotationAngle: 0}).addTo(map) ;
+        L.marker([46.687358,7.869718], {icon: midIcon, rotationAngle: 45}).addTo(map) ;
+        L.marker([46.687888,7.872871], {icon: midIcon, rotationAngle: 70}).addTo(map) ;
+
+        //polyline
+        var polulines = L.polyline([
+            [46.686004,7.869654],
+            [46.687358,7.869718],
+            [46.687888,7.872871],
+        ]).addTo(map);
+    </script>
+</body>

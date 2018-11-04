@@ -1,0 +1,209 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<link href="root/lib/leaflet-draw/dist/leaflet.draw.css" rel="stylesheet" />
+<script src="root/lib/leaflet-draw/dist/leaflet.draw.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+    #map2 .leaflet-draw-draw-rectangle , #map2 .leaflet-draw-draw-circle , #map2 .leaflet-draw-draw-marker , #map2 .leaflet-draw-draw-circlemarker , #map2 .leaflet-draw-draw-polyline , #map2 .leaflet-draw-actions {
+        display: none !important ;
+    }
+    #zonemap .leaflet-draw-draw-rectangle , #zonemap .leaflet-draw-draw-circle , #zonemap .leaflet-draw-draw-marker , #zonemap .leaflet-draw-draw-circlemarker , #zonemap .leaflet-draw-draw-polyline , #zonemap .leaflet-draw-actions {
+        display: none !important ;
+    }
+</style>
+<body>
+    <h1>deawing with leaflet</h1>
+    for drawing on map you need <a href="https://github.com/Leaflet/Leaflet.draw">Leaflet.draw</a> <br>
+    as I have it in my root folder I will add these lines to my haed : <br>
+    <xmp>
+        <link href="root/lib/leaflet-draw/dist/leaflet.draw.css" rel="stylesheet" />
+        <script src="root/lib/leaflet-draw/dist/leaflet.draw.js"></script>
+    </xmp>
+    now lets start a map with drawing on it : <br> <br>
+    <center>
+        <div id="map" style="width: 400px;height: 400px"></div>
+    </center>
+
+    code : <br>
+    <xmp>
+        //map basic setting
+        var map = L.map('map',{
+            drawControl: true ,
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map);
+    </xmp>
+    
+    but think we only want to  let user draw a poligon : <br> <br> 
+    <center>
+        <div id="map2" style="width: 400px;height: 400px"></div>
+    </center>
+    code : <br>
+    <xmp>
+        //style in head 
+        #map2 .leaflet-draw-draw-rectangle , #map2 .leaflet-draw-draw-circle , #map2 .leaflet-draw-draw-marker , #map2 .leaflet-draw-draw-circlemarker , #map2 .leaflet-draw-draw-polyline , #map2 .leaflet-draw-actions {
+            display: none !important ;
+        }
+        //in body 
+        <center>
+            <div id="map2" style="width: 400px;height: 400px"></div>
+        </center>
+        //end of the body  
+        //map basic setting
+        var map2 = L.map('map2',{
+            drawControl: true ,
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map2); 
+    </xmp>
+    only difference is in style . if you try drawing on map you see shapes vanish after drawing them what if we want to keep them and store their latlang on map : <br><br>
+    <center>
+        <div id="zonemap" style="width: 400px;height: 400px"></div>
+        <div id="zonepolygon" style="width: 60%;text-align: center"></div>
+    </center>
+
+    code : <br>
+    <xmp>
+            // haed
+            #zonemap .leaflet-draw-draw-rectangle , #zonemap .leaflet-draw-draw-circle , #zonemap .leaflet-draw-draw-marker , #zonemap .leaflet-draw-draw-circlemarker , #zonemap .leaflet-draw-draw-polyline , #zonemap .leaflet-draw-actions {
+                display: none !important ;
+            }
+            
+            // body
+            <center>
+                <div id="zonemap" style="width: 400px;height: 400px"></div>
+                <div id="zonepolygon" style="width: 60%;text-align: center"></div>
+            </center>
+
+            //end of body
+            //map setting
+            var zonemap = L.map('zonemap',{
+                drawControl: true ,
+                center: [37.26945365, 49.59018182],
+                zoom: 15
+            });
+            //open street map layer
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+            }).addTo(zonemap);
+            //for draw
+            var drawnItems = new L.FeatureGroup();
+            zonemap.addLayer(drawnItems);
+            zonemap.on('draw:created', function (e) {
+                var type = e.layerType,
+                    layer = e.layer;
+                if (type === 'polygon') {
+                    // here you got the polygon points
+                    var points = layer._latlngs;
+                    // here you can get it in geojson format
+                    var geojson = layer.toGeoJSON();
+                    //take coordinate out of points ( do not mess with this)
+                    var coordinates = [] ;
+                    coordinates = [[[points[0][0].lat,points[0][0].lng],[points[0][1].lat,points[0][1].lng],[points[0][2].lat,points[0][2].lng],[points[0][3].lat,points[0][3].lng]]];
+                    //you can use coordinates to send data to server
+                    $("#zonepolygon").html('['+points[0][0].lat+','+points[0][0].lng+'],['+points[0][1].lat+','+points[0][1].lng+'],['+points[0][2].lat+','+points[0][2].lng+'],['+points[0][3].lat+','+points[0][3].lng+']');
+                }
+                // here you add it to a layer to display it in the map
+                drawnItems.addLayer(layer);
+            });
+    </xmp>
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+    <script>
+        //map basic setting
+        var map = L.map('map',{
+            drawControl: true ,
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map); 
+
+        //map basic setting
+        var map2 = L.map('map2',{
+            drawControl: true ,
+            center: [46.687888,7.872871],
+            zoom: 16
+        });
+
+        //add open street map layer to map div
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(map2); 
+
+        //map setting
+        var zonemap = L.map('zonemap',{
+            drawControl: true ,
+            center: [37.26945365, 49.59018182],
+            zoom: 15
+        });
+        //open street map layer
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+        }).addTo(zonemap);
+        //for draw
+        var drawnItems = new L.FeatureGroup();
+        zonemap.addLayer(drawnItems);
+        zonemap.on('draw:created', function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+            if (type === 'polygon') {
+                // here you got the polygon points
+                var points = layer._latlngs;
+                // here you can get it in geojson format
+                var geojson = layer.toGeoJSON();
+                //take coordinate out of points ( do not mess with this)
+                var coordinates = [] ;
+                coordinates = [[[points[0][0].lat,points[0][0].lng],[points[0][1].lat,points[0][1].lng],[points[0][2].lat,points[0][2].lng],[points[0][3].lat,points[0][3].lng]]];
+                //you can use coordinates to send data to server
+                $("#zonepolygon").html('['+points[0][0].lat+','+points[0][0].lng+'],['+points[0][1].lat+','+points[0][1].lng+'],['+points[0][2].lat+','+points[0][2].lng+'],['+points[0][3].lat+','+points[0][3].lng+']');
+            }
+            // here you add it to a layer to display it in the map
+            drawnItems.addLayer(layer);
+        });
+    </script>
+</body>
