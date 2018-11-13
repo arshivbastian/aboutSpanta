@@ -1,0 +1,151 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+<script src="root/js/leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+    #osm , #GeoportailFrance_orthos {
+        position: absolute;
+        z-index: 99999;
+        padding: 5px;
+    }
+    #osm {
+        top : 300px;
+        left : 5px ;
+    }
+    #GeoportailFrance_orthos {
+        top : 350px ;
+        left : 5px ;
+    }
+</style>
+<body>
+    <h1>Layers</h1>
+    each item we add to map div is a layer like : OpenStreetMap , Polyline , Polygon , icon etc ... <br>
+    here we wanna add different layer of map ( like open streetmap to our map ) <br>
+    you can see different map layer in <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">this page</a> . <br>
+    
+    <h3> first look : </h3>
+    <center>
+        <div id="map" style="width: 400px;height: 400px">
+            <button id="osm" class="ui orange disabled button"><img src="./root/images/osm.png" width="30px" height="30px"></button>
+            <button id="GeoportailFrance_orthos" class="ui olive button"><img src="./root/images/GeoportailFrance_orthos.png" width="30px" height="30px"></button>
+        </div>
+    </center>
+    <h3> code : </h3>
+    <xmp>
+        //style in head  
+        <style>
+            #osm , #GeoportailFrance_orthos {
+                position: absolute;
+                z-index: 99999;
+                padding: 5px;
+            }
+            #osm {
+                top : 300px;
+                left : 5px ;
+            }
+            #GeoportailFrance_orthos {
+                top : 350px ;
+                left : 5px ;
+            }
+        </style>
+        //map div in body
+        <body>
+            <center>
+                <div id="map" style="width: 400px;height: 400px">
+                    <button id="osm" class="ui orange disabled button"><img src="./root/images/osm.png" width="30px" height="30px"></button>
+                    <button id="GeoportailFrance_orthos" class="ui olive button"><img src="./root/images/GeoportailFrance_orthos.png" width="30px" height="30px"></button>
+                </div>
+            </center>
+        </body>
+        //script in of the body  
+        <script>
+            var map = L.map('map',{
+                center: [46.685182 , 7.865076],
+                zoom: 18
+            });
+            //add open street map layer to map div
+            var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 5,
+                id: 'mapbox.streets',
+            }).addTo(map);
+            // add GeoportailFrance_orthos to map div
+            var GeoportailFrance_orthos = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+                attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>',
+                bounds: [[-75, -180], [81, 180]],
+                minZoom: 2,
+                maxZoom: 5,
+                apikey: 'choisirgeoportail',
+                format: 'image/jpeg',
+                style: 'normal'
+            });
+            $("#GeoportailFrance_orthos").click(function() {
+                $("#GeoportailFrance_orthos").addClass("disabled");
+                $("#osm").removeClass("disabled");
+                map.removeLayer(osm);
+                GeoportailFrance_orthos.addTo(map);
+            });
+            $("#osm").click(function() {
+                $("#osm").addClass("disabled");
+                $("#GeoportailFrance_orthos").removeClass("disabled");
+                map.removeLayer(GeoportailFrance_orthos);
+                osm.addTo(map);
+            });
+        </script>
+    </xmp>
+    the big notice is we decrease mapZoom of "OSM" to 5 because "GeoportailFrance_orthos" not showing most of the coordiantes with high zoom
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+    <script>
+        var map = L.map('map',{
+            center: [46.685182 , 7.865076],
+            zoom: 18
+        });
+        //add open street map layer to map div
+        var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 5,
+            id: 'mapbox.streets',
+        }).addTo(map);
+        // add GeoportailFrance_orthos to map div
+        var GeoportailFrance_orthos = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+            attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>',
+            bounds: [[-75, -180], [81, 180]],
+            minZoom: 2,
+            maxZoom: 5,
+            apikey: 'choisirgeoportail',
+            format: 'image/jpeg',
+            style: 'normal'
+        });
+        $("#GeoportailFrance_orthos").click(function() {
+            $("#GeoportailFrance_orthos").addClass("disabled");
+            $("#osm").removeClass("disabled");
+            map.removeLayer(osm);
+            GeoportailFrance_orthos.addTo(map);
+        });
+        $("#osm").click(function() {
+            $("#osm").addClass("disabled");
+            $("#GeoportailFrance_orthos").removeClass("disabled");
+            map.removeLayer(GeoportailFrance_orthos);
+            osm.addTo(map);
+        });
+    </script>
+</body>

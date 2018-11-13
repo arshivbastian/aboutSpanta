@@ -2,8 +2,13 @@
 <head>
     <meta charset="utf-8" />
     <title>Leaflet Routing Machine Example</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-    <link rel="stylesheet" href="leaflet-routing-machine.css" />
+    <script src="root/dist/jQuery/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+    <link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+    <script src="root/semantic/dist/semantic.min.js"></script>
+    <script src="root/js/leaflet.js"></script>
+    <link rel="stylesheet" type="text/css" href="root/css/leaflet.css">
     <style>
         .map {
             position: absolute;
@@ -20,50 +25,10 @@
     <script>
         var map = L.map('map');
 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap contributors'
+        var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
         }).addTo(map);
-
-        L.Routing.control({
-            waypoints: [
-                L.latLng(57.74, 11.94),
-                L.latLng(57.6792, 11.949)
-            ],
-            //routeWhileDragging: false,
-            createMarker: function() { return null; }
-            // createMarker: function (i, start, n){
-            //     var marker_icon = null
-            //     if (i == 0) {
-            //         var pointIcon = L.icon({
-            //             iconUrl: './root/images/startmark.png',
-            //             iconSize:     [35, 35], // size of the icon
-            //             popupAnchor: [0, 0]
-            //         });
-            //         // This is the first marker, indicating start
-            //         marker_icon = startIcon
-            //     } else if (i == n -1) {
-            //         var pointIcon = L.icon({
-            //             iconUrl: './root/images/endmark.png',
-            //             iconSize:     [35, 35], // size of the icon
-            //             popupAnchor: [0, 0]
-            //         });
-            //         //This is the last marker indicating destination
-            //         marker_icon =destinationIcon
-            //     }
-            //     var marker = L.marker (start.latLng, {
-            //         draggable: true,
-            //         bounceOnAdd: false,
-            //         bounceOnAddOptions: {
-            //             duration: 1000,
-            //             height: 800, 
-            //             function(){
-            //                 (bindPopup(myPopup).openOn(map))
-            //             }
-            //         },
-            //         icon: marker_icon
-            // })
-            // return marker
-        }.addTo(map);
     </script>
 </body>
 </html>
