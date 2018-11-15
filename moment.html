@@ -1,0 +1,335 @@
+<html>
+<script src="root/dist/jQuery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="root/css/site.css"> 
+<link rel="stylesheet" type="text/css" href="root/semantic/dist/semantic.rtl.min.css"> 
+<script src="root/semantic/dist/semantic.min.js"></script>
+
+<link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.common.min.css" />
+<link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.bootstrap.min.css" />
+<link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.rtl.min.css" />
+<script src="root/js/kendo/2018.2.620/kendo.all.min.js"></script>
+<script src="root/js/kendo/2018.2.620/messages/kendo.messages.fa-IR.min.js"></script>
+<script src="root/js/kendo/2018.2.620/kendo.aspnetmvc.min.js"></script>
+
+<link rel="stylesheet" href="root/lib/persian-datepicker/dist/css/persian-datepicker.min.css" />
+<script src="root/lib/moment/min/moment.min.js"></script>
+<script src="root/lib/moment-jalaali/build/moment-jalaali.js"></script>
+<script src="root/lib/persian-date/dist/persian-date.min.js"></script>
+<script src="root/lib/persian-datepicker/dist/js/persian-datepicker.min.js"></script>
+<style>
+    body {
+        padding: 50px ;
+        font-family: 'tahoma';
+        font-weight: bolder;
+    }
+    xmp {
+        color: blueviolet;
+    }
+    strong {
+        color: red;
+    }
+</style>
+<body>
+    <h1>Moment And MomentJ</h1>
+    <hr>
+    here are the useful links for moment : <br>
+    https://momentjs.com/ <br>
+    http://babakhani.github.io/PersianWebToolkit/doc/index.html <br>
+    http://farhadi.ir/projects/jalalijscalendar/<br>
+    to use them we have to add these lines to haeder : <br>
+    <xmp>
+        <link rel="stylesheet" href="root/lib/persian-datepicker/dist/css/persian-datepicker.min.css" />
+        <script src="root/lib/moment/min/moment.min.js"></script>
+        <script src="root/lib/moment-jalaali/build/moment-jalaali.js"></script>
+        <script src="root/lib/persian-date/dist/persian-date.min.js"></script>
+        <script src="root/lib/persian-datepicker/dist/js/persian-datepicker.min.js"></script>
+    </xmp>
+    also if you want to use kendo datepicker and time picker you need to add kendo lines : <br>
+    <xmp>
+        <link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.common.min.css" />
+        <link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.bootstrap.min.css" />
+        <link rel="stylesheet" href="root/css/kendo/2018.2.620/kendo.rtl.min.css" />
+        <script src="root/js/kendo/2018.2.620/kendo.all.min.js"></script>
+        <script src="root/js/kendo/2018.2.620/messages/kendo.messages.fa-IR.min.js"></script>
+        <script src="root/js/kendo/2018.2.620/kendo.aspnetmvc.min.js"></script>
+    </xmp>
+    <h3>Important need</h3>
+    if you are using persian date picker you need to change ur font decode because the persian datepicker is using farsi style the fix code is : <br>
+    <xmp>
+        var
+            persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+            arabicNumbers  = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g],
+            fixNumbers = function (str) {
+                if(typeof str === 'string') {
+                    for(var i=0; i<10; i++) {
+                        str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+                    }
+                }
+                return str;
+            };
+    </xmp>
+    look at this example : <br> <br>
+    <div class="ui icon input sans" style="width: 20% ;">
+        <input id="startdate" type="text" > 
+        <i class="calendar alternate icon"></i>
+    </div> 
+    chnaged to English <span id="fixed"></span> | not Changed <span id="nfixed"></span>                 
+    <!-- <div class="ui input"  style="width: 40% ; float: right; margin-right:10px">
+        <input id="starttime" type="text"  style="width:100%!important">
+    </div>  -->
+    <br>
+    the code is : <br>
+    <xmp>
+        //body  
+        <div class="ui icon input sans" style="width: 20% ;">
+            <input id="startdate" type="text" > 
+            <i class="calendar alternate icon"></i>
+        </div> 
+        chnaged to English <span id="fixed"></span> | not Changed <span id="nfixed"></span> 
+        //script
+        $("#startdate").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY/MM/DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#nfixed").html($("#startdate").val());
+                $("#fixed").html(fixNumbers($("#startdate").val()));
+            }
+        });
+    </xmp>
+    so u use the fix code to change decoder of numbers , and its important because other libararies or server cant understand persian style <br>
+    <h3> chnage the date from persian to global mode </h3>
+    <div class="ui icon input sans" style="width: 20% ;">
+        <input id="startdate1" type="text" > 
+        <i class="calendar alternate icon"></i>
+    </div>  <br>
+    step 1 : get persian date with persian ~ <span id="nfixed1"></span> --> | step 2 : change numbers ~ <span id="fixed1"></span> --> | step 3 : change date ~ <span id="changed1"></span>
+    <br>
+    the code is : <br>
+    <xmp>
+        //body
+        <div class="ui icon input sans" style="width: 20% ;">
+            <input id="startdate1" type="text" > 
+            <i class="calendar alternate icon"></i>
+        </div>  <br>
+        step 1 : get persian date with persian ~ <span id="nfixed1"></span> --> | step 2 : change numbers ~ <span id="fixed1"></span> --> | step 3 : change date ~ <span id="changed1"></span>
+            
+        //script
+        $("#startdate1").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY/MM/DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#nfixed1").html($("#startdate1").val());
+                $("#fixed1").html(fixNumbers($("#startdate1").val()));
+                $("#changed1").html(moment(fixNumbers($("#startdate1").val()), 'jYYYY/jM/jD').format('YYYY-MM-DD'));
+            }
+        });
+    </xmp>
+    <h3> connect persiandate picker and kendo time picker </h3> <br>
+    <div class="ui icon input sans" style="width: 20% ;float: left">
+        <input id="startdate2" type="text" > 
+        <i class="calendar alternate icon"></i>
+    </div>                 
+    <div class="ui input"  style="width: 10% ; float: left; margin-left:10px">
+        <input id="starttime2" type="text">
+    </div> <br> <br>
+    fixed date and connected <span id="dt2"></span> | Changed and connected <span id="cdt2"></span> <br>
+    the code is :
+    <xmp>
+            $("#starttime2").kendoTimePicker({format :"HH-mm",dateInput: false});
+            $("#startdate2").persianDatepicker({
+                autoClose: true,
+                observer: true,
+                altField: '.observer-example-alt',
+                format: 'YYYY-MM-DD',
+                initialValue: true ,
+                calendar: {
+                    persian: {
+                        leapYearMode: 'astronomical'
+                    }
+                },
+                toolbox: {
+                    todayButton:{
+                        enabled: false,
+                    },
+                    calendarSwitch: {
+                        enabled: false,
+                    }
+                },
+                onSelect: function() {
+                    $("#dt2").html(fixNumbers($("#startdate1").val())+"T"+$("#starttime2").val());
+                    $("#cdt2").html(moment(fixNumbers($("#startdate1").val()), 'jYYYY-jM-jD').format('YYYY-MM-DD')+"T"+$("#starttime2").val());
+                }
+            });
+    </xmp>
+    consider you can change format of date and time with / , - , : and etc ... . depends on ur server <br>
+    <h3>change time zone to the server time :</h3>
+    some times you need to change the zone of received date and time because ur sever time zon is sat on different time zone from ur local <br>
+    for example 23:30 in ur area  may be another day (after midnight) for other zones , in this state we need to change our time zone <br><br>
+    check this link : https://momentjs.com/timezone/ <br>
+    mostly servers are working on UTC ( UTC is a global time that is not related to any zones ) <br><br>
+    <div class="ui icon input sans" style="width: 20% ;float: left">
+        <input id="startdate3" type="text" > 
+        <i class="calendar alternate icon"></i>
+    </div>                 
+    <div class="ui input"  style="width: 10% ; float: left; margin-left:10px">
+        <input id="starttime3" type="text">
+    </div> <br><br>
+    selected time : <span id="st3"></span><br>
+    to UTC : <span id="utc3"></span><br>
+    to :
+
+    <br><br>
+    <br> <br>
+    <hr>
+    <br>
+    <span style="float:right!important">By Arash Bandarchian</span>
+    <br> <br>
+    <script>
+        var
+            persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+            arabicNumbers  = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g],
+        fixNumbers = function (str) {
+            if(typeof str === 'string') {
+                for(var i=0; i<10; i++) {
+                    str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+                }
+            }
+            return str;
+        };
+        $("#startdate").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY/MM/DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#nfixed").html($("#startdate").val());
+                $("#fixed").html(fixNumbers($("#startdate").val()));
+            }
+        });
+        $("#startdate1").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY/MM/DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#nfixed1").html($("#startdate1").val());
+                $("#fixed1").html(fixNumbers($("#startdate1").val()));
+                $("#changed1").html(moment(fixNumbers($("#startdate1").val()), 'jYYYY/jM/jD').format('YYYY-MM-DD'));
+            }
+        });
+
+        $("#starttime2").kendoTimePicker({format :"HH-mm",dateInput: false});
+        $("#startdate2").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY-MM-DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#dt2").html(fixNumbers($("#startdate2").val())+"T"+$("#starttime2").val());
+                $("#cdt2").html(moment(fixNumbers($("#startdate2").val()), 'jYYYY-jM-jD').format('YYYY-MM-DD')+"T"+$("#starttime2").val());
+            }
+        });
+
+        $("#starttime3").kendoTimePicker({format :"HH-mm",dateInput: false});
+        $("#startdate3").persianDatepicker({
+            autoClose: true,
+            observer: true,
+            altField: '.observer-example-alt',
+            format: 'YYYY-MM-DD',
+            initialValue: true ,
+            calendar: {
+                persian: {
+                    leapYearMode: 'astronomical'
+                }
+            },
+            toolbox: {
+                todayButton:{
+                    enabled: false,
+                },
+                calendarSwitch: {
+                    enabled: false,
+                }
+            },
+            onSelect: function() {
+                $("#st3").html(fixNumbers($("#startdate3").val())+"T"+$("#starttime3").val());
+                $("#utc3").html(moment(fixNumbers($("#startdate3").val()), 'jYYYY-jM-jD').format('YYYY-MM-DD')+"T"+$("#starttime3").val());
+            }
+        });
+    </script>
+</body>
+</html>
