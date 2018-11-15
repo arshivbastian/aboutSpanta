@@ -27,7 +27,7 @@
     <h1>Kendo Dropdown</h1>
     <hr>
     <h3>First Look</h3>
-    <input id="dropdown" class="sans" style="width: 20%"/>
+    <input id="dropdown"  style="width: 20%"/>
     <br>
     first we need to add kendo css and script : (Notice : you need Jquery as well) <br>
     <xmp>
@@ -56,7 +56,7 @@
                 "supervisor":"Arash's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":10,"y":49.594128},
             },
             {
                 "firstName":"Shive",
@@ -73,7 +73,7 @@
                 "supervisor":"Shiva's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":20,"y":49.594128},
             },
             {
                 "firstName":"Fatemeh",
@@ -90,14 +90,14 @@
                 "supervisor":"Shiva's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":30,"y":49.594128},
             },
         ] ;
     </xmp>
     Now we have a data source we need to defien it on drop down : <br>
     <xmp>
         //body 
-        <input id="dropdown" class="sans" style="width: 20%"/>
+        <input id="dropdown"  style="width: 20%"/>
         //script
         $("#dropdown").kendoDropDownList({
                 filter: "contains",
@@ -107,13 +107,36 @@
                 dataSource: mydatasource ,
         });
     </xmp>
+
+
+    <h3>call Sub itemfrom datasource</h3>
+    look at coordinates in datasource we have , it has sub items : <br><br>
+    <xmp>
+        "coordinates":{"values":[37.27502,49.594128],"x":10,"y":49.594128},
+    </xmp>
+    we want the x from coordinates : <br> <br>
+    <input id="dropdownsub"  style="width: 20%"/><br><br>
+    the code is : <br>
+    <xmp>
+        //body
+        <input id="dropdownsub"  style="width: 20%"/>
+        //script
+        $("#dropdownsub").kendoDropDownList({
+            filter: "contains",
+            tagMode: "single",
+            dataTextField: "coordinates.x",
+            dataValueField: "id",
+            dataSource: mydatasource ,
+        });
+    </xmp>
+
     <h3> Multi filtering </h3>
     the search is important in dropdown , the drop down we  build only searches by firstName of the datasource but what if we want to search by multiple fields : <br><br>
-    <input id="dropdownmulti" class="sans" style="width: 30%"/><br>
+    <input id="dropdownmulti"  style="width: 30%"/><br>
     in this dropdown you can search by FirstName , LastName and nationalCode , The code is : <br>
     <xmp>
         //body
-        <input id="dropdownmulti" class="sans" style="width: 30%"/><br>
+        <input id="dropdownmulti"  style="width: 30%"/><br>
         //script
         $("#dropdownmulti").kendoDropDownList({
             filter: "contains",
@@ -148,13 +171,17 @@
             }
         });
     </xmp>
+    notice we can filter sub datasource as well  like -->  field: "coordinates.x", <br>
+
+
+
     <h3> show multi feild for dropdown items </h3>
     what if we wan to show  FirstName and LastName together as the item in drop down : <br> <br>
-    <input id="dropdownshow" class="sans" style="width: 30%"/><br><br>
+    <input id="dropdownshow"  style="width: 30%"/><br><br>
     as you can see we show both firstName and lastName , the code is : <br>
     <xmp>
         //body
-        <input id="dropdownshow" class="sans" style="width: 30%"/>
+        <input id="dropdownshow"  style="width: 30%"/>
         //script
         $("#dropdownshow").kendoDropDownList({
             filter: "contains",
@@ -167,12 +194,56 @@
             dataSource: mydatasource ,
         });
     </xmp>
+
+
+
     <h3> Get Value of Item </h3>
-    in previous dropdowns we set id as Value (dataValueField: "id") in this dropdown we want to change it to firstName and recieving the value with databind : <br><br>
-    <div id="ddmother">
-        <input id="dropdownval" class="sans" style="width: 30%" data-bind="value: toshow"/>
-        <div style="width:100px;height:50px" data-bind="value: toshow"></div>
-    </div>
+    in previous dropdowns we set id as Value (dataValueField: "id") in this dropdown we want to change it to firstName and recieving the value with databind and viewModel : <br><br>
+    <input id="dropdownval" style="width: 30%"  data-bind="value: selected"/>
+    <div style="width:100px;height:50px" id="toshow"></div>
+    the code is : <br>
+    <xmp>
+        //body
+        <input id="dropdownval" style="width: 30%"  data-bind="value: selected"/>
+        <div style="width:100px;height:50px" id="toshow"></div>
+        //script
+        $("#dropdownval").kendoDropDownList({
+            filter: "contains",
+            tagMode: "single",
+            dataTextField: "firstName",
+            dataValueField: "firstName",
+            dataSource: mydatasource ,
+            change : function () {
+                $("#toshow").html(viewModel.get("selected"));
+            }
+        });
+        //viewmodel
+        var viewModel = kendo.observable({
+            selected : ''
+        });
+        kendo.bind($("body"), viewModel); 
+    </xmp>
+    same example with value instead of viewModel : <br><br>
+    <input id="dropdownval2" style="width: 30%"/>
+    <div style="width:100px;height:50px" id="toshow2"></div>
+    the code is : <br>
+    <xmp>
+        //body 
+        <input id="dropdownval2" style="width: 30%"/>
+        <div style="width:100px;height:50px" id="toshow2"></div>
+        //script
+        $("#dropdownval2").kendoDropDownList({
+            filter: "contains",
+            tagMode: "single",
+            dataTextField: "firstName",
+            dataValueField: "firstName",
+            dataSource: mydatasource ,
+            change : function () {
+                $("#toshow2").html(this.value());
+            }
+        }); 
+    </xmp>
+    notice dropdown has not data-bind when we have no viewModel <br>
     
     <br><br>
     <br> <br>
@@ -197,7 +268,7 @@
                 "supervisor":"Arash's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":10,"y":49.594128},
             },
             {
                 "firstName":"Shive",
@@ -214,7 +285,7 @@
                 "supervisor":"Shiva's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":20,"y":49.594128},
             },
             {
                 "firstName":"Fatemeh",
@@ -231,7 +302,7 @@
                 "supervisor":"Fatemeh's Mother",
                 "grade":7,
                 "id":"5bdfe7ff7296744cfaca3658",
-                "coordinates":{"values":[37.27502,49.594128],"x":37.27502,"y":49.594128},
+                "coordinates":{"values":[37.27502,49.594128],"x":30,"y":49.594128},
             },
         ] ;
 
@@ -239,6 +310,14 @@
                 filter: "contains",
                 tagMode: "single",
                 dataTextField: "firstName",
+                dataValueField: "id",
+                dataSource: mydatasource ,
+        });
+
+        $("#dropdownsub").kendoDropDownList({
+                filter: "contains",
+                tagMode: "single",
+                dataTextField: "coordinates.x",
                 dataValueField: "id",
                 dataSource: mydatasource ,
         });
@@ -286,20 +365,33 @@
             },
             dataSource: mydatasource ,
         });
-        
+
         $("#dropdownval").kendoDropDownList({
-                filter: "contains",
-                tagMode: "single",
-                dataTextField: "firstName",
-                dataValueField: "firstName",
-                dataSource: mydatasource ,
+            filter: "contains",
+            tagMode: "single",
+            dataTextField: "firstName",
+            dataValueField: "firstName",
+            dataSource: mydatasource ,
+            change : function () {
+                $("#toshow").html(viewModel.get("selected"));
+            }
         });
-        
+        //viewmodel
         var viewModel = kendo.observable({
-            toshow : '',
+            selected : ''
         });
-        kendo.bind($("#ddmother"), viewModel);
-        console.log (viewModel.get("toshow"));
+        kendo.bind($("body"), viewModel);
+
+        $("#dropdownval2").kendoDropDownList({
+            filter: "contains",
+            tagMode: "single",
+            dataTextField: "firstName",
+            dataValueField: "firstName",
+            dataSource: mydatasource ,
+            change : function () {
+                $("#toshow2").html(this.value());
+            }
+        }); 
     </script>
 </body>
 </html>
